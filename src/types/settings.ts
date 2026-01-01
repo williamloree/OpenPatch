@@ -1,0 +1,46 @@
+/**
+ * Structure des patchnotes dans window.Settings
+ */
+export interface PatchNoteSection {
+  title: string
+  items: string[]
+}
+
+export interface PatchNotesConfig {
+  title: string
+  sections: PatchNoteSection[]
+}
+
+export interface WidgetOptions {
+  theme?: 'light' | 'dark'
+  display?: 'modal' | 'sidebar' | 'banner'
+  position?: 'center' | 'top-right' | 'bottom-right'
+  closeButtonText?: string
+  forceShow?: boolean
+}
+
+/**
+ * Configuration globale dans window.Settings
+ */
+export interface WindowSettings {
+  projectId: string
+  version: string
+  patchnotes: PatchNotesConfig
+  options?: WidgetOptions
+}
+
+/**
+ * Déclaration TypeScript pour window.Settings
+ */
+declare global {
+  interface Window {
+    Settings?: WindowSettings
+    OpenPatch?: {
+      show: () => void
+      hide: () => void
+      reset: () => void
+    }
+  }
+}
+
+export {}

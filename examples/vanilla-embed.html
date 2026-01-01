@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenPatch - Exemple Vanilla JS</title>
+  </head>
+
+  <!-- Configuration OpenPatch (AVANT le chargement du script) -->
+  <script>
+    window.Settings = {
+      projectId: "my-project",
+      version: "1.2.0",
+      patchnotes: {
+        title: "Nouveautés",
+        sections: [
+          {
+            title: "Fonctionnalités",
+            items: [
+              "Ajout du dashboard",
+              "Nouveau système de notifications"
+            ],
+          },
+          {
+            title: "Corrections",
+            items: [
+              "Correction de bugs mineurs",
+              "Amélioration des performances",
+            ],
+          },
+        ],
+      },
+      options: {
+        closeButtonText: "Compris !",
+        forceShow: false,
+      },
+    };
+
+    // Chargement du widget OpenPatch
+    (function (d, s, x) {
+      var t = d.getElementsByTagName(s)[0],
+        e = d.createElement(s),
+        l = d.createElement(x);
+      var io = "https://patch.williamloree.fr/"; // URL de votre CDN
+      var h = d.getElementsByTagName("head")[0];
+      e.type = "module";
+      e.src = io + "openpatch.es.js";
+      l.rel = "stylesheet";
+      l.type = "text/css";
+      l.href = io + "openpatch.css";
+      t.parentNode.insertBefore(e, t);
+      h.appendChild(l);
+    })(document, "script", "link");
+  </script>
+
+  <body>
+    <div id="app">
+      <h1>Mon Application</h1>
+      <p>Le widget OpenPatch s'affichera automatiquement!</p>
+    </div>
+  </body>
+</html>
