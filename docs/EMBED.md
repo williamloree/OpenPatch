@@ -52,7 +52,7 @@ Copiez ce code dans votre HTML **avant la fermeture de `</body>`**:
         var t = d.getElementsByTagName(s)[0],
           e = d.createElement(s),
           l = d.createElement(x);
-        var io = "https://open-patch.fr/";
+        var io = "https://williamloree.github.io/OpenPatch//";
         var h = d.getElementsByTagName("head")[0];
         e.type = "module";
         e.src = io + "openpatch.es.js";

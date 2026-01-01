@@ -11,7 +11,7 @@
 
 *Affichez vos notes de version de manière élégante, avec détection automatique des nouvelles versions*
 
-[Démo](https://open-patch.fr) • [Documentation](#-documentation) • [Intégration](#-intégration)
+[Démo](https://williamloree.github.io/OpenPatch/) • [Documentation](#-documentation) • [Intégration](#-intégration)
 
 </div>
 
@@ -205,7 +205,7 @@ Intégrez OpenPatch sur **n'importe quel site web** sans dépendances Vue !
     // Chargement du widget
     (function(d,s,x){
       var t=d.getElementsByTagName(s)[0],e=d.createElement(s),l=d.createElement(x);
-      var io="https://open-patch.fr/";
+      var io="https://williamloree.github.io/OpenPatch//";
       var h=d.getElementsByTagName("head")[0];
       e.type="module";
       e.src=io+"openpatch.es.js";
@@ -699,10 +699,10 @@ MIT License - voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
 ## 🔗 Liens
 
-- **Documentation** : [EMBED.md](EMBED.md) | [DEPLOY.md](DEPLOY.md)
+- **Documentation** : [EMBED.md](docs/EMBED.md) | [DEPLOY.md](docs/DEPLOY.md)
 - **Repository** : [github.com/williamloree/OpenPatch](https://github.com/williamloree/OpenPatch)
 - **Issues** : [github.com/williamloree/OpenPatch/issues](https://github.com/williamloree/OpenPatch/issues)
-- **Démo Live** : [open-patch.fr](https://open-patch.fr)
+- **Démo Live** : [open-patch.fr](https://williamloree.github.io/OpenPatch/)
 
 ---
 
