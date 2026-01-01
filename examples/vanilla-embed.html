@@ -6,11 +6,10 @@
     <title>OpenPatch - Exemple Vanilla JS</title>
   </head>
 
-  <!-- Configuration OpenPatch (AVANT le chargement du script) -->
   <script>
     window.Settings = {
       projectId: "my-project",
-      version: "1.2.0",
+      version: "1.4.0",
       patchnotes: {
         title: "Nouveautés",
         sections: [
@@ -47,7 +46,7 @@
       e.src = io + "openpatch.es.js";
       l.rel = "stylesheet";
       l.type = "text/css";
-      l.href = io + "openpatch.css";
+      l.href = io + "open-patch.css";
       t.parentNode.insertBefore(e, t);
       h.appendChild(l);
     })(document, "script", "link");

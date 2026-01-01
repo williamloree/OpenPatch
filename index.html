@@ -7,6 +7,35 @@
     <title>open-patch</title>
   </head>
   <body>
+    <script>
+      window.Settings = {
+      projectId: "my-project",
+      version: "1.4.0",
+      patchnotes: {
+        title: "Nouveautés",
+        sections: [
+          {
+            title: "Fonctionnalités",
+            items: [
+              "Ajout du dashboard",
+              "Nouveau système de notifications"
+            ],
+          },
+          {
+            title: "Corrections",
+            items: [
+              "Correction de bugs mineurs",
+              "Amélioration des performances",
+            ],
+          },
+        ],
+      },
+      options: {
+        closeButtonText: "Compris !!!",
+        forceShow: false,
+      },
+    };
+    </script>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
