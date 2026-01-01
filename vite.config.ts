@@ -7,6 +7,13 @@ import { resolve } from 'path';
 export default defineConfig({
   plugins: [vue(), tailwindcss()],
 
+  // Remplacer les variables d'environnement pour le build
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('production'),
+    'process.env': '{}',
+    'global': 'globalThis'
+  },
+
   build: {
     // Configuration pour le mode library (standalone)
     lib: {
@@ -34,6 +41,8 @@ export default defineConfig({
     },
     // Output directory
     outDir: 'dist',
-    emptyOutDir: true
+    emptyOutDir: true,
+    // Minification pour production
+    minify: 'esbuild'
   }
 });
