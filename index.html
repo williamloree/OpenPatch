@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -9,32 +9,54 @@
   <body>
     <script>
       window.Settings = {
-      projectId: "my-project",
-      version: "1.4.0",
-      patchnotes: {
-        title: "Nouveautés",
-        sections: [
-          {
-            title: "Fonctionnalités",
-            items: [
-              "Ajout du dashboard",
-              "Nouveau système de notifications"
-            ],
-          },
-          {
-            title: "Corrections",
-            items: [
-              "Correction de bugs mineurs",
-              "Amélioration des performances",
-            ],
-          },
-        ],
-      },
-      options: {
-        closeButtonText: "Compris !!!",
-        forceShow: false,
-      },
-    };
+        projectId: "openpatch-demo",
+        version: "1.4.0",
+        patchnotes: {
+          title: "🚀 Nouveautés",
+          sections: [
+            {
+              title: "✨ Nouvelles fonctionnalités",
+              items: [
+                "Ajout du dashboard de statistiques en temps réel",
+                "Nouveau système de notifications intelligentes",
+                "Mode sombre automatique selon les préférences",
+                "Export des données en PDF et Excel",
+                "Intégration API REST complète",
+              ],
+            },
+            {
+              title: "⚡ Améliorations",
+              items: [
+                "Performance améliorée de 40% sur le chargement",
+                "Interface utilisateur repensée",
+                "Recherche optimisée avec suggestions",
+                "Réduction de 30% de la taille du bundle",
+              ],
+            },
+            {
+              title: "🐛 Corrections",
+              items: [
+                "Correction du bug d'affichage sur iOS Safari",
+                "Résolution des problèmes de synchronisation",
+                "Fix du crash sur anciens navigateurs",
+              ],
+            },
+          ],
+        },
+        options: {
+          closeButtonText: "Compris !",
+          forceShow: false,
+        },
+        css: {
+          primaryColor: "#BB86FC",
+          backgroundColor: "#1E1E1E",
+          textColor: "#E1E1E1",
+          buttonBackgroundColor: "#BB86FC",
+          buttonTextColor: "#000000",
+          borderColor: "#2C2C2C",
+          accentColor: "#03DAC6",
+        },
+      };
     </script>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>

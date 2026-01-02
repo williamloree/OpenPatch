@@ -38,18 +38,18 @@
                 :class="{ 'mb-7': index < patchnotes.sections.length - 1 }"
               >
                 <div class="flex items-center gap-3 mb-3">
-                  <span class="inline-flex items-center px-3 py-1 bg-linear-to-br from-slate-50 to-slate-200 border border-slate-300 rounded-full text-xs font-semibold text-slate-600 uppercase tracking-wide">
+                  <span class="inline-flex items-center px-3 py-1 bg-linear-to-br from-slate-50 to-slate-200 border border-slate-300 rounded-full text-sm font-semibold text-slate-600 uppercase tracking-wide">
                     {{ section.title }}
                   </span>
                 </div>
 
-                <ul class="list-none p-0 m-0 flex flex-col gap-2.5">
+                <ul class="list-none p-0 m-0 flex flex-col gap-2.5 last:mb-5">
                   <li
                     v-for="(item, itemIndex) in section.items"
                     :key="itemIndex"
-                    class="flex items-start gap-3 px-4 py-2.5 rounded-md text-[0.9375rem] leading-relaxed transition-all duration-150 op-item"
+                    class="flex items-start gap-3 px-3 py-2 rounded-md text-[0.9375rem] leading-relaxed transition-all duration-150 op-item cursor-pointer"
                   >
-                    <span class="inline-block w-1.5 h-1.5 rounded-full mt-2 shrink-0 op-bullet"></span>
+                    <!-- <span class="inline-block w-1.5 h-1.5 rounded-full mt-2 shrink-0 op-bullet"></span> -->
                     <span class="flex-1 op-item-text">{{ item }}</span>
                   </li>
                 </ul>
@@ -64,7 +64,7 @@
           <div class="sticky bottom-0 border-t px-6 py-4 op-footer">
             <button
               @click="handleClose"
-              class="w-full text-sm font-medium py-2.5 px-4 rounded-md transition-colors duration-150 op-button"
+              class="w-full text-sm font-medium py-2.5 px-4 rounded-md transition-colors duration-150 op-button cursor-pointer"
             >
               {{ closeButtonText }}
             </button>
