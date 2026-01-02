@@ -35,7 +35,7 @@ function initOpenPatch() {
     }
   })
 
-  const instance = app.mount(container)
+  const instance = app.mount(container) as any
 
   window.OpenPatch = {
     show: () => {
