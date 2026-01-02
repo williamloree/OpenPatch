@@ -27,6 +27,7 @@ function initOpenPatch() {
     title: settings.patchnotes.title,
     closeButtonText: settings.options?.closeButtonText || 'Compris !',
     forceShow: settings.options?.forceShow || false,
+    cssCustomization: settings.css,
     onClose: () => {
       console.log('[OpenPatch] Modal fermée')
     },
