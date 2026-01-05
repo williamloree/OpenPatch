@@ -1,6 +1,6 @@
 {
   "name": "open-patch",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A lightweight Vue 3 component for displaying patch notes and update notifications",
   "type": "module",
   "main": "./dist/index.es.js",
@@ -48,7 +48,7 @@
     "build": "npm run build:lib && npm run build:standalone && npm run build:types",
     "build:lib": "vue-tsc -b && vite build",
     "build:standalone": "vue-tsc -b && vite build --mode standalone",
-    "build:types": "vue-tsc -p tsconfig.build.json",
+    "build:types": "node -e \"const fs=require('fs');const content='export { useOpenPatch } from \\'./composables/useOpenPatch\\';\\nexport { default as OpenPatch } from \\'./components/OpenPatch.vue\\';\\nexport type { PatchNotesConfig, PatchNoteSection, WindowSettings, CSSCustomization, WidgetOptions, OpenPatchConfig } from \\'./types/settings\\';\\nexport type { PatchNotesConfig as PatchNotes } from \\'./types/settings\\';\\nexport type { WindowSettings as OpenPatchSettings } from \\'./types/settings\\';';fs.writeFileSync('dist/index.d.ts',content);\"",
     "preview": "vite preview",
     "serve:example": "vite preview --open /example-embed.html",
     "prepublishOnly": "npm run build"
