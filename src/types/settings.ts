@@ -11,6 +11,16 @@ export interface PatchNotesConfig {
   sections: PatchNoteSection[]
 }
 
+export interface CSSCustomization {
+  primaryColor?: string
+  backgroundColor?: string
+  textColor?: string
+  buttonTextColor?: string
+  borderColor?: string
+  accentColor?: string
+  buttonBackgroundColor?: string
+}
+
 export interface WidgetOptions {
   theme?: 'light' | 'dark'
   display?: 'modal' | 'sidebar' | 'banner'
@@ -27,6 +37,14 @@ export interface WindowSettings {
   version: string
   patchnotes: PatchNotesConfig
   options?: WidgetOptions
+  css?: CSSCustomization
+}
+
+/**
+ * Configuration pour le chargement JSON
+ */
+export interface OpenPatchConfig {
+  jsonUrl?: string
 }
 
 /**
@@ -35,6 +53,7 @@ export interface WindowSettings {
 declare global {
   interface Window {
     Settings?: WindowSettings
+    OpenPatchConfig?: OpenPatchConfig
     OpenPatch?: {
       show: () => void
       hide: () => void
