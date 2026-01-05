@@ -801,6 +801,12 @@
 
     <!-- Configuration OpenPatch -->
     <script>
+
+     // Si OpenPatchConfig est défini il prend le dessus sur Settings
+      window.OpenPatchConfig = {
+        jsonUrl: "./patchnotes.json",
+      };
+      // Est inutile si OpenPatchConfig est défini
       window.Settings = {
         projectId: "openpatch-demo",
         version: "1.4.0",
@@ -847,10 +853,10 @@
           buttonTextColor: "#ffffff",
           buttonBackgroundColor: "#4CAF50",
           borderColor: "#e0e0e0",
-          accentColor: "#81C784"
-        }
+          accentColor: "#81C784",
+        },
       };
-
+      
       // Chargement du widget OpenPatch
       (function (d, s, x) {
         var t = d.getElementsByTagName(s)[0],

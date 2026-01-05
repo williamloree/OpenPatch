@@ -64,9 +64,9 @@ Voir la section [Mode Embed](#-mode-embed-standalone) ci-dessous.
 
 ## 🚀 Utilisation
 
-### Mode Embed (Standalone) - Recommandé
+### Mode JSON (Recommandé) - Mise à jour sans redéploiement 🔥
 
-Intégrez OpenPatch sur **n'importe quel site web** sans dépendances Vue !
+**Nouveau !** Chargez votre configuration depuis un fichier JSON externe. Mettez à jour vos patchnotes sans redéployer votre application !
 
 ```html
 <!DOCTYPE html>
@@ -76,9 +76,70 @@ Intégrez OpenPatch sur **n'importe quel site web** sans dépendances Vue !
   <title>Mon Site</title>
 </head>
 <body>
-  <div id="app">
-    <h1>Mon Application</h1>
-  </div>
+  <h1>Mon Application</h1>
+
+  <!-- Configuration OpenPatch - Mode JSON -->
+  <script>
+    window.OpenPatchConfig = {
+      jsonUrl: '/patchnotes.json'  // URL de votre fichier JSON
+    };
+  </script>
+
+  <!-- Chargement du widget -->
+  <link rel="stylesheet" href="https://williamloree.github.io/OpenPatch/open-patch.css">
+  <script type="module" src="https://williamloree.github.io/OpenPatch/openpatch.es.js"></script>
+</body>
+</html>
+```
+
+**Fichier `patchnotes.json` :**
+
+```json
+{
+  "projectId": "my-project",
+  "version": "1.4.0",
+  "patchnotes": {
+    "title": "Nouveautés",
+    "sections": [
+      {
+        "title": "Fonctionnalités",
+        "items": [
+          "Ajout du dashboard",
+          "Nouveau système de notifications"
+        ]
+      }
+    ]
+  },
+  "options": {
+    "closeButtonText": "Compris !",
+    "forceShow": false
+  },
+  "css": {
+    "primaryColor": "#4CAF50",
+    "backgroundColor": "#f9f9f9"
+  }
+}
+```
+
+**✨ Avantages du mode JSON :**
+- ✅ Mise à jour des patchnotes sans redéployer le code
+- ✅ Modification de la version en production
+- ✅ Gestion centralisée de la configuration
+- ✅ Fallback automatique vers `window.Settings` si le JSON échoue
+
+### Mode Inline (window.Settings)
+
+Intégrez OpenPatch avec configuration directe dans le HTML :
+
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mon Site</title>
+</head>
+<body>
+  <h1>Mon Application</h1>
 
   <!-- Configuration OpenPatch -->
   <script>
@@ -118,21 +179,11 @@ Intégrez OpenPatch sur **n'importe quel site web** sans dépendances Vue !
         accentColor: "#81C784"
       }
     };
-
-    // Chargement du widget
-    (function(d,s,x){
-      var t=d.getElementsByTagName(s)[0],e=d.createElement(s),l=d.createElement(x);
-      var io="https://williamloree.github.io/OpenPatch/";
-      var h=d.getElementsByTagName("head")[0];
-      e.type="module";
-      e.src=io+"openpatch.es.js";
-      l.rel="stylesheet";
-      l.type="text/css";
-      l.href=io+"open-patch.css";
-      t.parentNode.insertBefore(e,t);
-      h.appendChild(l);
-    })(document,"script","link");
   </script>
+
+  <!-- Chargement du widget -->
+  <link rel="stylesheet" href="https://williamloree.github.io/OpenPatch/open-patch.css">
+  <script type="module" src="https://williamloree.github.io/OpenPatch/openpatch.es.js"></script>
 </body>
 </html>
 ```

@@ -1,18 +1,20 @@
 import { createApp } from 'vue'
 import OpenPatch from './components/OpenPatch.vue'
-import type { WindowSettings } from './types/settings'
+import { loadConfig } from './utils/configLoader'
 import './style.css'
 
-function initOpenPatch() {
-  if (!window.Settings) {
-    console.error('[OpenPatch] window.Settings n\'est pas défini')
+async function initOpenPatch() {
+  // Load configuration from JSON URL or window.Settings
+  const jsonUrl = window.OpenPatchConfig?.jsonUrl
+  const settings = await loadConfig({ jsonUrl })
+
+  if (!settings) {
+    console.error('[OpenPatch] Aucune configuration valide trouvée')
     return
   }
 
-  const settings: WindowSettings = window.Settings
-
   if (!settings.projectId || !settings.version || !settings.patchnotes) {
-    console.error('[OpenPatch] Configuration incomplète dans window.Settings')
+    console.error('[OpenPatch] Configuration incomplète')
     return
   }
 

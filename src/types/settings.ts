@@ -41,11 +41,19 @@ export interface WindowSettings {
 }
 
 /**
+ * Configuration pour le chargement JSON
+ */
+export interface OpenPatchConfig {
+  jsonUrl?: string
+}
+
+/**
  * Déclaration TypeScript pour window.Settings
  */
 declare global {
   interface Window {
     Settings?: WindowSettings
+    OpenPatchConfig?: OpenPatchConfig
     OpenPatch?: {
       show: () => void
       hide: () => void

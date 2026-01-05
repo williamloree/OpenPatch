@@ -1,0 +1,46 @@
+{
+  "projectId": "openpatch-demo",
+  "version": "1.4.0",
+  "patchnotes": {
+    "title": "🚀 Nouveautés",
+    "sections": [
+      {
+        "title": "✨ fonctionnalités",
+        "items": [
+          "Chargement de configuration depuis fichier JSON externe",
+          "Flexibilité de mise à jour des patchnotes sans redéploiement",
+          "Système de fallback automatique vers window.Settings"
+        ]
+      },
+      {
+        "title": "⚡ Améliorations",
+        "items": [
+          "Performance améliorée de 40% sur le chargement",
+          "Interface utilisateur repensée",
+          "Recherche optimisée avec suggestions",
+          "Réduction de 30% de la taille du bundle"
+        ]
+      },
+      {
+        "title": "🐛 Corrections",
+        "items": [
+          "Correction de bugs mineurs",
+          "Amélioration de la gestion des erreurs"
+        ]
+      }
+    ]
+  },
+  "options": {
+    "closeButtonText": "Compris !",
+    "forceShow": false
+  },
+  "css": {
+    "primaryColor": "#FF6B35",
+    "backgroundColor": "#FFF8F3",
+    "textColor": "#2D3142",
+    "buttonBackgroundColor": "#FF6B35",
+    "buttonTextColor": "#ffffff",
+    "borderColor": "#FFE5D9",
+    "accentColor": "#FFB997"
+  }
+}
