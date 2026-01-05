@@ -1,18 +1,63 @@
 {
   "name": "open-patch",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.1.0",
+  "description": "A lightweight Vue 3 component for displaying patch notes and update notifications",
   "type": "module",
+  "main": "./dist/index.es.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js"
+    },
+    "./standalone": "./dist/openpatch.es.js",
+    "./standalone/umd": "./dist/openpatch.umd.js",
+    "./style.css": "./dist/open-patch.css"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.css",
+    "dist/*.d.ts",
+    "dist/*.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "vue",
+    "vue3",
+    "patch-notes",
+    "changelog",
+    "notifications",
+    "updates",
+    "modal",
+    "widget"
+  ],
+  "author": "Williamloree",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/williamloree/OpenPatch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/williamloree/OpenPatch/issues"
+  },
+  "homepage": "https://github.com/williamloree/OpenPatch#readme",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "build:standalone": "vue-tsc -b && vite build --mode production",
+    "build": "npm run build:lib && npm run build:standalone && npm run build:types",
+    "build:lib": "vue-tsc -b && vite build",
+    "build:standalone": "vue-tsc -b && vite build --mode standalone",
+    "build:types": "node -e \"const fs=require('fs');const content='export { useOpenPatch } from \\'./composables/useOpenPatch\\';\\nexport { default as OpenPatch } from \\'./components/OpenPatch.vue\\';\\nexport type { PatchNotesConfig, PatchNoteSection, WindowSettings, CSSCustomization, WidgetOptions, OpenPatchConfig } from \\'./types/settings\\';\\nexport type { PatchNotesConfig as PatchNotes } from \\'./types/settings\\';\\nexport type { WindowSettings as OpenPatchSettings } from \\'./types/settings\\';';fs.writeFileSync('dist/index.d.ts',content);\"",
     "preview": "vite preview",
-    "serve:example": "vite preview --open /example-embed.html"
+    "serve:example": "vite preview --open /example-embed.html",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.18",
-    "vue": "^3.5.24"
+    "@tailwindcss/vite": "^4.1.18"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
@@ -23,6 +68,7 @@
     "tailwindcss": "^4.1.18",
     "typescript": "~5.9.3",
     "vite": "^7.2.4",
+    "vue": "^3.5.24",
     "vue-tsc": "^3.1.4"
   }
 }

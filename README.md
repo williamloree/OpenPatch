@@ -1,262 +1,295 @@
-# 🎉 OpenPatch
+# OpenPatch
 
-<div align="center">
+A lightweight Vue 3 component for displaying patch notes and update notifications to your users.
 
-**Widget universel de patchnotes intelligent pour Vue 3**
+[![NPM Version](https://img.shields.io/npm/v/open-patch)](https://www.npmjs.com/package/open-patch)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Vue 3](https://img.shields.io/badge/Vue-3.x-42b883?logo=vue.js)](https://vuejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?logo=typescript)](https://www.typescriptlang.org/)
 
-[![Vue 3](https://img.shields.io/badge/Vue-3.x-42b883?style=flat-square&logo=vue.js)](https://vuejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
-[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
-
-*Affichez vos notes de version de manière élégante, avec détection automatique des nouvelles versions*
-
-[Démo](https://williamloree.github.io/OpenPatch/) • [Documentation](#-documentation) • [Intégration](#-intégration)
-
-</div>
+[Demo](https://williamloree.github.io/OpenPatch/) • [Documentation](#installation) • [GitHub](https://github.com/williamloree/OpenPatch)
 
 ---
 
-## 📖 À propos
+## About
 
-OpenPatch est un widget de patchnotes moderne et léger qui s'intègre facilement dans n'importe quelle application web. Il affiche automatiquement les notes de version aux utilisateurs uniquement lors d'une nouvelle version, en stockant la dernière version vue dans le localStorage.
+OpenPatch is a modern, lightweight patch notes widget that integrates easily into any web application. It automatically displays version notes to users only when a new version is released, storing the last seen version in localStorage.
 
-### 🎯 Cas d'usage
+## Features
 
-- ✅ Applications SaaS nécessitant une communication des mises à jour
-- ✅ Sites e-commerce informant des nouvelles fonctionnalités
-- ✅ Dashboards administratifs avec releases fréquentes
-- ✅ Applications mobiles hybrides (Progressive Web Apps)
-- ✅ Extensions de navigateur nécessitant un changelog
+- **Dual mode**: Use as a Vue component or standalone widget
+- **Fully customizable**: CSS custom properties support
+- **Smart persistence**: Remembers which updates users have seen
+- **Easy integration**: Drop-in script or npm package
+- **TypeScript support**: Full type definitions included
+- **Lightweight**: Minimal bundle size with Tailwind CSS
+- **Responsive**: Mobile-friendly design
+- **Accessible**: ARIA standards compliant
+- **JSON configuration**: Update patch notes without redeploying
 
-## ✨ Fonctionnalités
+## Installation
 
-- 🚀 **Détection automatique** - Affiche les patchnotes uniquement lors d'une nouvelle version
-- 💾 **Persistance intelligente** - Stockage localStorage de la dernière version vue
-- 🎨 **Design moderne** - Interface élégante avec Tailwind CSS 4.x
-- 🎭 **Personnalisation CSS** - Couleurs et styles entièrement personnalisables
-- ⚡ **Performance optimale** - Bundle léger et optimisé
-- 🔧 **Hautement configurable** - Options personnalisables pour tous les besoins
-- 📱 **Responsive** - Design adaptatif mobile-friendly
-- 🌐 **Multi-plateforme** - Compatible Vue 3, vanilla JS, et frameworks modernes
-- 🔒 **Type-safe** - Développé en TypeScript natif
-- ♿ **Accessible** - Respect des standards ARIA
-
-## 📦 Installation
-
-### Pour développeurs Vue 3
+### Option 1: NPM Package (Vue Projects)
 
 ```bash
-# Cloner le dépôt
+npm install open-patch
+```
+
+### Option 2: Standalone Script (Any Website)
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/open-patch/dist/open-patch.css">
+<script src="https://unpkg.com/open-patch/dist/openpatch.es.js" type="module"></script>
+```
+
+### Option 3: Development (Clone Repository)
+
+```bash
+# Clone the repository
 git clone https://github.com/williamloree/OpenPatch.git
 cd OpenPatch
 
-# Installer les dépendances
+# Install dependencies
 npm install
 
-# Lancer en développement
+# Start development server
 npm run dev
 ```
 
-### Pour intégration standalone
+## Usage
 
-Voir la section [Mode Embed](#-mode-embed-standalone) ci-dessous.
+### As a Vue Component
 
-## 🚀 Utilisation
+```vue
+<template>
+  <div>
+    <button @click="show">Show Updates</button>
+    <OpenPatch
+      project-id="my-app"
+      version="1.2.0"
+      :patchnotes="patchnotes"
+      title="What's New"
+      close-button-text="Got it!"
+      @close="handleClose"
+      @shown="handleShown"
+    />
+  </div>
+</template>
 
-### Mode JSON (Recommandé) - Mise à jour sans redéploiement 🔥
+<script setup lang="ts">
+import { OpenPatch, type PatchNotes } from 'open-patch'
+import 'open-patch/style.css'
 
-**Nouveau !** Chargez votre configuration depuis un fichier JSON externe. Mettez à jour vos patchnotes sans redéployer votre application !
+const patchnotes: PatchNotes = {
+  title: "Version 1.2.0",
+  sections: [
+    {
+      title: "New Features",
+      items: [
+        "Dark mode support",
+        "Export to PDF"
+      ]
+    },
+    {
+      title: "Bug Fixes",
+      items: [
+        "Fixed login issue"
+      ]
+    }
+  ]
+}
+
+const handleClose = () => console.log('Patch notes closed')
+const handleShown = () => console.log('Patch notes shown')
+</script>
+```
+
+### Using the Composable
+
+```vue
+<script setup lang="ts">
+import { useOpenPatch } from 'open-patch'
+
+const { show, hide, reset } = useOpenPatch({
+  projectId: 'my-app',
+  version: '1.2.0',
+  patchnotes: {
+    title: "What's New",
+    sections: [
+      {
+        title: "Features",
+        items: ["New dashboard", "Export functionality"]
+      }
+    ]
+  }
+})
+
+// Show the modal
+show()
+
+// Hide it programmatically
+hide()
+
+// Reset and show again
+reset()
+</script>
+```
+
+### Standalone Mode - JSON Configuration (Recommended)
+
+**Update your patch notes without redeploying your application!**
 
 ```html
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Mon Site</title>
+  <link rel="stylesheet" href="https://unpkg.com/open-patch/dist/open-patch.css">
 </head>
 <body>
-  <h1>Mon Application</h1>
+  <h1>My Website</h1>
 
-  <!-- Configuration OpenPatch - Mode JSON -->
-  <script>
+  <script type="module">
+    // Configure via window object
     window.OpenPatchConfig = {
-      jsonUrl: '/patchnotes.json'  // URL de votre fichier JSON
-    };
+      jsonUrl: '/patchnotes.json'
+    }
   </script>
-
-  <!-- Chargement du widget -->
-  <link rel="stylesheet" href="https://williamloree.github.io/OpenPatch/open-patch.css">
-  <script type="module" src="https://williamloree.github.io/OpenPatch/openpatch.es.js"></script>
+  <script src="https://unpkg.com/open-patch/dist/openpatch.es.js" type="module"></script>
 </body>
 </html>
 ```
 
-**Fichier `patchnotes.json` :**
+**patchnotes.json:**
 
 ```json
 {
-  "projectId": "my-project",
-  "version": "1.4.0",
+  "projectId": "my-app",
+  "version": "1.2.0",
   "patchnotes": {
-    "title": "Nouveautés",
+    "title": "What's New",
     "sections": [
       {
-        "title": "Fonctionnalités",
-        "items": [
-          "Ajout du dashboard",
-          "Nouveau système de notifications"
-        ]
+        "title": "Features",
+        "items": ["New dashboard", "Notifications"]
       }
     ]
   },
   "options": {
-    "closeButtonText": "Compris !",
+    "closeButtonText": "Got it!",
     "forceShow": false
   },
   "css": {
-    "primaryColor": "#4CAF50",
-    "backgroundColor": "#f9f9f9"
+    "primaryColor": "#4CAF50"
   }
 }
 ```
 
-**✨ Avantages du mode JSON :**
-- ✅ Mise à jour des patchnotes sans redéployer le code
-- ✅ Modification de la version en production
-- ✅ Gestion centralisée de la configuration
-- ✅ Fallback automatique vers `window.Settings` si le JSON échoue
+**Benefits of JSON configuration:**
 
-### Mode Inline (window.Settings)
+- Update patch notes without code deployment
+- Modify version in production
+- Centralized configuration management
+- Automatic fallback to `window.Settings` if JSON fails
 
-Intégrez OpenPatch avec configuration directe dans le HTML :
+### Standalone Mode - Inline Configuration
 
 ```html
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Mon Site</title>
+  <link rel="stylesheet" href="https://unpkg.com/open-patch/dist/open-patch.css">
 </head>
 <body>
-  <h1>Mon Application</h1>
+  <h1>My Website</h1>
 
-  <!-- Configuration OpenPatch -->
   <script>
     window.Settings = {
-      projectId: "my-project",
-      version: "1.4.0",
+      projectId: "my-app",
+      version: "1.2.0",
       patchnotes: {
-        title: "Nouveautés",
+        title: "What's New",
         sections: [
           {
-            title: "Fonctionnalités",
-            items: [
-              "Ajout du dashboard",
-              "Nouveau système de notifications"
-            ]
+            title: "Features",
+            items: ["New dashboard", "Export functionality"]
           },
           {
-            title: "Corrections",
-            items: [
-              "Correction de bugs mineurs",
-              "Amélioration des performances"
-            ]
+            title: "Bug Fixes",
+            items: ["Fixed login issue"]
           }
         ]
       },
       options: {
-        closeButtonText: "Compris !",
+        closeButtonText: "Got it!",
         forceShow: false
       },
       css: {
         primaryColor: "#4CAF50",
         backgroundColor: "#f9f9f9",
         textColor: "#333333",
-        buttonTextColor: "#ffffff",
         buttonBackgroundColor: "#4CAF50",
+        buttonTextColor: "#ffffff",
         borderColor: "#e0e0e0",
         accentColor: "#81C784"
       }
-    };
+    }
   </script>
-
-  <!-- Chargement du widget -->
-  <link rel="stylesheet" href="https://williamloree.github.io/OpenPatch/open-patch.css">
-  <script type="module" src="https://williamloree.github.io/OpenPatch/openpatch.es.js"></script>
+  <script src="https://unpkg.com/open-patch/dist/openpatch.es.js" type="module"></script>
 </body>
 </html>
 ```
 
-### Mode Vue 3
+## Configuration
 
-```vue
-<template>
-  <div>
-    <h1>Mon Application</h1>
+### Props (Vue Component)
 
-    <OpenPatch
-      project-id="my-app"
-      version="1.2.0"
-      :patchnotes="patchnotesContent"
-      :css-customization="customColors"
-    />
-  </div>
-</template>
+| Prop | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| `projectId` | `string` | ✅ | Unique identifier for your project |
+| `version` | `string` | ✅ | Current version number |
+| `patchnotes` | `PatchNotes` | ✅ | Patch notes content |
+| `title` | `string` | ❌ | Modal title (default: from patchnotes) |
+| `closeButtonText` | `string` | ❌ | Close button text (default: "Compris !") |
+| `forceShow` | `boolean` | ❌ | Always show modal (default: false) |
+| `cssCustomization` | `CSSCustomization` | ❌ | CSS custom properties |
 
-<script setup lang="ts">
-import OpenPatch from '@/components/OpenPatch.vue'
+### Events
 
-const patchnotesContent = {
-  title: "Nouveautés v1.2.0",
-  sections: [
-    {
-      title: "Fonctionnalités",
-      items: [
-        "Ajout du mode sombre",
-        "Export PDF des rapports",
-        "Système de notifications en temps réel"
-      ]
-    },
-    {
-      title: "Corrections",
-      items: [
-        "Correction du bug d'affichage sur mobile",
-        "Amélioration des performances de chargement"
-      ]
-    }
-  ]
-}
+- `@close` - Emitted when modal is closed
+- `@shown` - Emitted when modal is displayed
 
-const customColors = {
-  primaryColor: "#4CAF50",
-  backgroundColor: "#f9f9f9",
-  textColor: "#333333",
-  buttonBackgroundColor: "#4CAF50",
-  buttonTextColor: "#ffffff"
-}
-</script>
+### API (Standalone Mode)
+
+```javascript
+// Show the modal
+window.OpenPatch.show()
+
+// Hide the modal
+window.OpenPatch.hide()
+
+// Reset (clear storage and show again)
+window.OpenPatch.reset()
 ```
 
-## 🎨 Personnalisation CSS
+## CSS Customization
 
-OpenPatch offre un système complet de personnalisation via l'objet `css` dans la configuration.
+OpenPatch offers a complete customization system via the `css` object in configuration.
 
-### Options de personnalisation
+### Available CSS Properties
 
-| Propriété | Type | Défaut | Description |
-|-----------|------|--------|-------------|
-| `primaryColor` | `string` | `#0f172a` | Couleur principale (titres, bordures au hover) |
-| `backgroundColor` | `string` | `#ffffff` | Couleur de fond de la modal |
-| `textColor` | `string` | `#334155` | Couleur du texte principal |
-| `buttonBackgroundColor` | `string` | `#0f172a` | Couleur de fond du bouton |
-| `buttonTextColor` | `string` | `#ffffff` | Couleur du texte du bouton |
-| `borderColor` | `string` | `#e2e8f0` | Couleur des bordures |
-| `accentColor` | `string` | `#cbd5e1` | Couleur d'accent (bullets, bordures items) |
+| Property | Type | Default | Description |
+| -------- | ---- | ------- | ----------- |
+| `primaryColor` | `string` | `#0f172a` | Primary color (titles, borders on hover) |
+| `backgroundColor` | `string` | `#ffffff` | Modal background color |
+| `textColor` | `string` | `#334155` | Main text color |
+| `buttonBackgroundColor` | `string` | `#0f172a` | Button background color |
+| `buttonTextColor` | `string` | `#ffffff` | Button text color |
+| `borderColor` | `string` | `#e2e8f0` | Border color |
+| `accentColor` | `string` | `#cbd5e1` | Accent color (bullets, item borders) |
 
-### Exemples de thèmes
+### Theme Examples
 
-#### Thème vert moderne
+#### Modern Green Theme
 
 ```javascript
 css: {
@@ -270,7 +303,7 @@ css: {
 }
 ```
 
-#### Thème bleu professionnel
+#### Professional Blue Theme
 
 ```javascript
 css: {
@@ -284,7 +317,7 @@ css: {
 }
 ```
 
-#### Thème sombre
+#### Dark Theme
 
 ```javascript
 css: {
@@ -298,7 +331,7 @@ css: {
 }
 ```
 
-#### Thème orange énergique
+#### Energetic Orange Theme
 
 ```javascript
 css: {
@@ -312,9 +345,9 @@ css: {
 }
 ```
 
-## 📐 Structure des données
+## Data Structure
 
-### Format PatchNotes
+### PatchNotes Format
 
 ```typescript
 interface PatchNotesConfig {
@@ -326,198 +359,213 @@ interface PatchNotesConfig {
 }
 ```
 
-### Exemple complet
+### Complete Example
 
 ```typescript
 const patchnotes: PatchNotesConfig = {
-  title: "Version 2.0.0 - Refonte majeure",
+  title: "Version 2.0.0 - Major Redesign",
   sections: [
     {
-      title: "🎉 Nouvelles fonctionnalités",
+      title: "🎉 New Features",
       items: [
-        "Interface utilisateur repensée",
-        "Mode collaboratif en temps réel",
-        "Intégration API REST complète"
+        "Redesigned user interface",
+        "Real-time collaborative mode",
+        "Complete REST API integration"
       ]
     },
     {
-      title: "⚡ Améliorations",
+      title: "⚡ Improvements",
       items: [
-        "Performance de chargement x3",
-        "Réduction de 40% de la taille du bundle",
-        "Support PWA offline"
+        "3x faster loading performance",
+        "40% reduction in bundle size",
+        "Offline PWA support"
       ]
     },
     {
-      title: "🐛 Corrections",
+      title: "🐛 Bug Fixes",
       items: [
-        "Correction du crash sur iOS Safari",
-        "Fix du bug de synchronisation",
-        "Résolution des problèmes CORS"
+        "Fixed crash on iOS Safari",
+        "Fixed synchronization bug",
+        "Resolved CORS issues"
       ]
     }
   ]
 }
 ```
 
-## 🎛️ Configuration
+## TypeScript Support
 
-### Props du composant OpenPatch
-
-| Prop | Type | Requis | Défaut | Description |
-|------|------|--------|--------|-------------|
-| `projectId` | `string` | ✅ | - | Identifiant unique du projet pour le localStorage |
-| `version` | `string` | ✅ | - | Version courante (format semver recommandé) |
-| `patchnotes` | `PatchNotesConfig` | ✅ | - | Structure des notes de version |
-| `cssCustomization` | `CSSCustomization` | ❌ | `{}` | Personnalisation des couleurs |
-| `title` | `string` | ❌ | `"🎉 Nouveautés"` | Titre personnalisé de la modal |
-| `closeButtonText` | `string` | ❌ | `"Compris !"` | Texte du bouton de fermeture |
-| `forceShow` | `boolean` | ❌ | `false` | Forcer l'affichage (utile pour tests) |
-| `manual` | `boolean` | ❌ | `false` | Désactiver la détection automatique |
-
-### Options de configuration (window.Settings)
+Full TypeScript definitions are included:
 
 ```typescript
-interface WindowSettings {
-  projectId: string              // Identifiant unique du projet
-  version: string                // Version actuelle
-  patchnotes: PatchNotesConfig   // Contenu des patchnotes
-  options?: {
-    closeButtonText?: string     // Texte du bouton
-    forceShow?: boolean          // Forcer l'affichage
-  }
-  css?: CSSCustomization         // Personnalisation des couleurs
-}
+import type {
+  PatchNotesConfig,
+  PatchNoteSection,
+  WindowSettings,
+  CSSCustomization,
+  WidgetOptions,
+  OpenPatchConfig
+} from 'open-patch'
+
+// Aliases for compatibility
+import type { PatchNotesConfig as PatchNotes } from 'open-patch'
+import type { WindowSettings as OpenPatchSettings } from 'open-patch'
 ```
 
-## 🚀 Build & Déploiement
+## Best Practices
 
-### Build pour production
+### Semantic Versioning
 
-```bash
-# Build standalone (pour CDN)
-npm run build:standalone
+Use [semver](https://semver.org/) format:
 
-# Build standard (pour intégration Vue)
-npm run build
-```
-
-Fichiers générés dans `dist/` :
-- `openpatch.es.js` - Bundle ES Module (recommandé)
-- `openpatch.umd.js` - Bundle UMD (compatibilité navigateurs)
-- `open-patch.css` - Styles CSS
-
-### Déploiement sur GitHub Pages
-
-Le projet est configuré pour déployer automatiquement via GitHub Actions. Chaque push sur `main` déclenche un build et un déploiement.
-
-URL : `https://williamloree.github.io/OpenPatch/`
-
-## 💡 Bonnes pratiques
-
-### Versionning sémantique
-
-Utilisez le format [semver](https://semver.org/) :
-
-```
+```text
 1.2.3
 │ │ │
-│ │ └─ Patch (corrections de bugs)
-│ └─── Minor (nouvelles fonctionnalités)
-└───── Major (changements majeurs)
+│ │ └─ Patch (bug fixes)
+│ └─── Minor (new features)
+└───── Major (breaking changes)
 ```
 
 ### LocalStorage
 
-Clé utilisée : `openpatch_last_seen_{projectId}`
+Storage key format: `openpatch_last_seen_{projectId}`
 
 ```javascript
-// Exemple de donnée stockée
+// Example of stored data
 localStorage.getItem('openpatch_last_seen_my-app')
 // → "1.2.0"
 ```
 
-## 🛠️ Développement
+## Development
 
-### Scripts disponibles
+### Available Scripts
 
 ```bash
-# Développement
-npm run dev              # Démarrer le serveur de dev
+# Development
+npm run dev              # Start development server
 
 # Build
-npm run build            # Build standard Vue
-npm run build:standalone # Build standalone pour CDN
+npm run build            # Complete build (lib + standalone + types)
+npm run build:lib        # Build Vue library
+npm run build:standalone # Build standalone for CDN
 
 # Preview
-npm run preview          # Preview du build
+npm run preview          # Preview build
+npm run serve:example    # Serve example page
 ```
 
-### Structure du projet
+### Project Structure
 
-```
+```text
 OpenPatch/
 ├── src/
 │   ├── components/
-│   │   └── OpenPatch.vue          # Composant principal
+│   │   └── OpenPatch.vue          # Main component
+│   ├── composables/
+│   │   └── useOpenPatch.ts        # Composable
 │   ├── types/
-│   │   └── settings.ts            # Définitions TypeScript
-│   ├── App.vue                    # App de démo
-│   ├── main.ts                    # Point d'entrée Vue
-│   └── standalone.ts              # Point d'entrée standalone
-├── examples/
-│   └── vanilla-embed.html         # Exemples d'intégration
-├── public/
-│   └── index.html                 # Page de démo
-└── README.md                      # Ce fichier
+│   │   └── settings.ts            # TypeScript definitions
+│   ├── utils/
+│   │   └── configLoader.ts        # Config loader utility
+│   ├── index.ts                   # Library entry point
+│   ├── standalone.ts              # Standalone entry point
+│   ├── App.vue                    # Demo app
+│   └── main.ts                    # Vue entry point
+├── dist/                          # Build output
+├── public/                        # Static assets
+└── README.md                      # This file
 ```
 
-## ❓ FAQ
+## FAQ
 
-**Q: Comment réinitialiser l'historique des versions ?**
-R: Utilisez `window.OpenPatch.reset()` ou supprimez la clé localStorage
+**Q: How to reset version history?**
+A: Use `window.OpenPatch.reset()` or delete the localStorage key
 
-**Q: Le widget fonctionne-t-il sans Vue ?**
-R: Oui ! Utilisez le mode embed standalone
+**Q: Does the widget work without Vue?**
+A: Yes! Use standalone mode
 
-**Q: Peut-on personnaliser complètement le design ?**
-R: Oui, via l'objet `css` dans la configuration
+**Q: Can I fully customize the design?**
+A: Yes, via the `css` configuration object
 
-**Q: Comment gérer plusieurs projets ?**
-R: Utilisez des `projectId` différents pour chaque projet
+**Q: How to manage multiple projects?**
+A: Use different `projectId` for each project
 
-**Q: Le widget est-il accessible (ARIA) ?**
-R: Oui, les standards d'accessibilité sont respectés
+**Q: Is the widget accessible (ARIA)?**
+A: Yes, accessibility standards are respected
 
-## 📝 Changelog
+## Build & Deployment
 
-### Version 1.4.0 (Actuelle)
-- ✨ Système de personnalisation CSS complet
-- ✨ Support des sections multiples
-- ⚡ Amélioration des performances
-- 🎨 Refonte complète en Tailwind pur
-- 🐛 Corrections de bugs mineurs
+### Building for Production
 
-## 🤝 Contribution
+```bash
+# Complete build
+npm run build
+```
 
-Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou une PR.
+Generated files in `dist/`:
 
-## 📄 License
+- `index.es.js` - ES Module for Vue projects (8.2 kB)
+- `openpatch.es.js` - Standalone ES Module with Vue (123 kB)
+- `openpatch.umd.js` - Standalone UMD with Vue (77 kB)
+- `open-patch.css` - Compiled Tailwind styles (21 kB)
+- `index.d.ts` - TypeScript definitions
 
-MIT License - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+### Publishing to NPM
 
-## 🔗 Liens
+```bash
+# Login to npm
+npm login
 
-- **Repository** : [github.com/williamloree/OpenPatch](https://github.com/williamloree/OpenPatch)
-- **Issues** : [github.com/williamloree/OpenPatch/issues](https://github.com/williamloree/OpenPatch/issues)
-- **Démo Live** : [williamloree.github.io/OpenPatch](https://williamloree.github.io/OpenPatch/)
+# Publish package
+npm publish
+```
+
+### GitHub Pages Deployment
+
+The project is configured to deploy automatically via GitHub Actions. Each push to `main` triggers a build and deployment.
+
+Demo URL: `https://williamloree.github.io/OpenPatch/`
+
+## Changelog
+
+### Version 1.0.0 (Current)
+
+- ✨ Complete CSS customization system
+- ✨ Multi-section support
+- ✨ JSON configuration mode
+- ⚡ Performance improvements
+- 🎨 Complete Tailwind rewrite
+- 📦 NPM package ready
+- 🔧 Dual mode (Vue + Standalone)
+
+## Browser Support
+
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+- Modern browsers with ES modules support
+
+## Contributing
+
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+## License
+
+MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Links
+
+- **Repository**: [github.com/williamloree/OpenPatch](https://github.com/williamloree/OpenPatch)
+- **Issues**: [github.com/williamloree/OpenPatch/issues](https://github.com/williamloree/OpenPatch/issues)
+- **Demo**: [williamloree.github.io/OpenPatch](https://williamloree.github.io/OpenPatch/)
+- **NPM**: [npmjs.com/package/open-patch](https://www.npmjs.com/package/open-patch)
 
 ---
 
 <div align="center">
 
-**Fait avec ❤️ par [williamloree](https://github.com/williamloree)**
+**Made with ❤️ by [williamloree](https://github.com/williamloree)**
 
-Si ce projet vous aide, pensez à lui donner une ⭐ !
+If this project helps you, consider giving it a ⭐!
 
 </div>
