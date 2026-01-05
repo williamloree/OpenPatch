@@ -3,7 +3,10 @@ import vue from "@vitejs/plugin-vue";
 import tailwindcss from "@tailwindcss/vite";
 import { resolve } from 'path';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+const isStandalone = mode === 'standalone';
+
+return {
   plugins: [vue(), tailwindcss()],
   define: {
     'process.env.NODE_ENV': JSON.stringify('production'),
@@ -13,12 +16,13 @@ export default defineConfig({
 
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/standalone.ts'),
+      entry: resolve(__dirname, isStandalone ? 'src/standalone.ts' : 'src/index.ts'),
       name: 'OpenPatch',
-      formats: ['es', 'umd'],
-      fileName: (format) => `openpatch.${format}.js`
+      formats: isStandalone ? ['es', 'umd'] : ['es'],
+      fileName: (format) => isStandalone ? `openpatch.${format}.js` : `index.${format}.js`
     },
     rollupOptions: {
+      external: isStandalone ? [] : ['vue'],
       output: {
         globals: {
           vue: 'Vue'
@@ -33,7 +37,8 @@ export default defineConfig({
       }
     },
     outDir: 'dist',
-    emptyOutDir: true,
+    emptyOutDir: !isStandalone,
     minify: 'esbuild'
   }
+}
 });

@@ -1,0 +1,48 @@
+# Source files
+src/
+public/
+examples/
+
+# Development files
+*.log
+.DS_Store
+.vscode/
+.idea/
+
+# Configuration files
+vite.config.ts
+tsconfig*.json
+tailwind.config.js
+postcss.config.js
+
+# Build files
+node_modules/
+.npm/
+.cache/
+
+# Documentation (keep only README.md)
+README.npm.md
+CONTRIBUTING.md
+.github/
+
+# Test files
+*.test.ts
+*.spec.ts
+__tests__/
+coverage/
+
+# Example files and unnecessary dist files
+*.html
+dist/index.html
+dist/patchnotes.json
+dist/vite.svg
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
