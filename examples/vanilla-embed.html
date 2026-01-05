@@ -15,10 +15,7 @@
         sections: [
           {
             title: "Fonctionnalités",
-            items: [
-              "Ajout du dashboard",
-              "Nouveau système de notifications"
-            ],
+            items: ["Ajout du dashboard", "Nouveau système de notifications"],
           },
           {
             title: "Corrections",
@@ -33,14 +30,22 @@
         closeButtonText: "Compris !",
         forceShow: false,
       },
+      css: {
+        primaryColor: "#FF6B35",
+        backgroundColor: "#FFF8F3",
+        textColor: "#2D3142",
+        buttonBackgroundColor: "#FF6B35",
+        buttonTextColor: "#ffffff",
+        borderColor: "#FFE5D9",
+        accentColor: "#FFB997",
+      },
     };
 
-    // Chargement du widget OpenPatch
     (function (d, s, x) {
       var t = d.getElementsByTagName(s)[0],
         e = d.createElement(s),
         l = d.createElement(x);
-      var io = "https://williamloree.github.io/OpenPatch/"; // URL de votre CDN
+      var io = "https://williamloree.github.io/OpenPatch/";
       var h = d.getElementsByTagName("head")[0];
       e.type = "module";
       e.src = io + "openpatch.es.js";
@@ -53,7 +58,7 @@
   </script>
 
   <body>
-    <div id="app">
+    <div>
       <h1>Mon Application</h1>
       <p>Le widget OpenPatch s'affichera automatiquement!</p>
       <button onclick="window.OpenPatch.show()">Voir les nouveautés</button>

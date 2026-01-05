@@ -56,6 +56,7 @@
       :patchnotes="patchnotesConfig"
       :title="patchnotesConfig.title"
       :close-button-text="closeButtonText"
+      :css-customization="cssCustomization"
     />
   </div>
 </template>
@@ -63,12 +64,13 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import OpenPatch from "./components/OpenPatch.vue";
-import type { PatchNotesConfig } from "./types/settings";
+import type { PatchNotesConfig, CSSCustomization } from "./types/settings";
 
 const currentVersion = ref("1.4.0");
 
 const patchnotesConfig = ref<PatchNotesConfig | null>(window?.Settings?.patchnotes || null);
 const closeButtonText = ref(window.Settings?.options?.closeButtonText || 'Fermer');
+const cssCustomization = ref<CSSCustomization | undefined>(window?.Settings?.css);
 
 const lastSeenInfo = computed(() => {
   try {

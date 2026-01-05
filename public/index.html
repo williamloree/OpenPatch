@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenPatch - Widget de Patchnotes Universel 🎉</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #6366f1;
+        --primary-dark: #4f46e5;
+        --secondary: #ec4899;
+        --accent: #f59e0b;
+        --success: #10b981;
+        --background: #0f172a;
+        --surface: #1e293b;
+        --text: #f8fafc;
+        --text-muted: #94a3b8;
+      }
+
+      /* Reset uniquement pour le contenu de la page, pas global */
+      .container,
+      .container * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        background: var(--background);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Animated background */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 20% 50%,
+            rgba(99, 102, 241, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(236, 72, 153, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 20%,
+            rgba(245, 158, 11, 0.1) 0%,
+            transparent 50%
+          );
+        animation: backgroundMove 20s ease-in-out infinite;
+        z-index: 0;
+      }
+
+      @keyframes backgroundMove {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(-20px, -20px) scale(1.1);
+        }
+      }
+
+      /* Floating particles */
+      .particle {
+        position: fixed;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.3;
+        animation: float 15s infinite ease-in-out;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-100px) rotate(180deg);
+        }
+      }
+
+      .container {
+        position: relative;
+        z-index: 10;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      /* Header Section */
+      .header {
+        text-align: center;
+        padding: 4rem 2rem;
+        position: relative;
+      }
+
+      .header::before {
+        content: "🎉";
+        position: absolute;
+        top: -2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 5rem;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        50% {
+          transform: translateX(-50%) translateY(-20px);
+        }
+      }
+
+      .header h1,
+      h1.page-title {
+        font-size: 4rem;
+        font-weight: 900;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary) 50%,
+          var(--accent) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+        animation: slideInDown 0.8s ease-out;
+      }
+
+      @keyframes slideInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .subtitle {
+        font-size: 1.5rem;
+        color: var(--text-muted);
+        font-weight: 400;
+        max-width: 700px;
+        margin: 0 auto 2rem;
+        line-height: 1.6;
+        animation: slideInUp 0.8s ease-out 0.2s both;
+      }
+
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .badges {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        animation: slideInUp 0.8s ease-out 0.4s both;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        cursor: default;
+      }
+
+      .badge:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+      }
+
+      .badge::before {
+        content: "✨";
+        font-size: 1.2rem;
+      }
+
+      /* Main Card */
+      .card {
+        background: rgba(30, 41, 59, 0.8);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 2rem;
+        padding: 3rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+        animation: fadeIn 1s ease-out 0.6s both;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 30px 60px -12px rgba(99, 102, 241, 0.4);
+        border-color: rgba(99, 102, 241, 0.3);
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .card-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .card-title {
+        flex: 1;
+      }
+
+      .card-title h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text);
+      }
+
+      .card-title p {
+        color: var(--text-muted);
+        font-size: 1rem;
+      }
+
+      /* Button Group */
+      .button-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .container button,
+      button.btn-primary,
+      button.btn-secondary,
+      button.btn-danger {
+        position: relative;
+        padding: 1.25rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        font-family: "Inter", sans-serif;
+      }
+
+      .container button::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .container button:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .container button span {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6);
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #64748b, #475569);
+        color: white;
+        box-shadow: 0 10px 30px rgba(100, 116, 139, 0.4);
+      }
+
+      .btn-secondary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(100, 116, 139, 0.6);
+      }
+
+      .btn-danger {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+        box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+      }
+
+      .btn-danger:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(239, 68, 68, 0.6);
+      }
+
+      .container button:active {
+        transform: translateY(0) scale(0.98);
+      }
+
+      /* Info Box */
+      .info-box {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.1),
+          rgba(236, 72, 153, 0.1)
+        );
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        border-left: 4px solid var(--primary);
+        padding: 2rem;
+        border-radius: 1rem;
+        backdrop-filter: blur(10px);
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
+
+      .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .info-label {
+        color: var(--text-muted);
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .info-value {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 0.5rem;
+        font-family: "Courier New", monospace;
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--primary);
+        border: 1px solid rgba(99, 102, 241, 0.2);
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        border-radius: 0.5rem;
+        color: var(--success);
+        font-weight: 600;
+      }
+
+      .status::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: var(--success);
+        border-radius: 50%;
+        animation: blink 2s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* Features Grid */
+      .features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+
+      .feature-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        padding: 2rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .feature-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--primary);
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(99, 102, 241, 0.3);
+      }
+
+      .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .feature-card h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+        color: var(--text);
+      }
+
+      .feature-card p {
+        color: var(--text-muted);
+        line-height: 1.6;
+        font-size: 0.95rem;
+      }
+
+      .info-box h3 {
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+      }
+
+      /* Footer */
+      .footer {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: var(--text-muted);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 4rem;
+      }
+
+      .footer a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+
+      .footer a:hover {
+        color: var(--secondary);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .container {
+          padding: 1rem;
+        }
+
+        .header h1,
+        h1.page-title {
+          font-size: 2.5rem;
+        }
+
+        .subtitle {
+          font-size: 1.125rem;
+        }
+
+        .card {
+          padding: 1.5rem;
+        }
+
+        .button-group {
+          grid-template-columns: 1fr;
+        }
+
+        .info-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .features {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Scroll animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-on-scroll {
+        animation: fadeInUp 0.8s ease-out both;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Floating particles -->
+    <div
+      class="particle"
+      style="
+        width: 100px;
+        height: 100px;
+        top: 10%;
+        left: 10%;
+        animation-delay: 0s;
+      "
+    ></div>
+    <div
+      class="particle"
+      style="
+        width: 60px;
+        height: 60px;
+        top: 70%;
+        left: 80%;
+        animation-delay: 3s;
+      "
+    ></div>
+    <div
+      class="particle"
+      style="
+        width: 80px;
+        height: 80px;
+        top: 40%;
+        left: 90%;
+        animation-delay: 1.5s;
+      "
+    ></div>
+    <div
+      class="particle"
+      style="
+        width: 50px;
+        height: 50px;
+        top: 80%;
+        left: 15%;
+        animation-delay: 4s;
+      "
+    ></div>
+
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <h1>OpenPatch</h1>
+        <p class="subtitle">
+          Widget universel de patchnotes intelligent avec détection automatique
+          des nouvelles versions
+        </p>
+        <div class="badges">
+          <div class="badge">Vue 3</div>
+          <div class="badge">TypeScript</div>
+          <div class="badge">Tailwind CSS</div>
+          <div class="badge">Vanilla JS</div>
+        </div>
+      </header>
+
+      <!-- Main Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🎮</div>
+          <div class="card-title">
+            <h2>Contrôles interactifs</h2>
+            <p>Testez toutes les fonctionnalités du widget en temps réel</p>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn-primary" onclick="window.OpenPatch?.show()">
+            <span>
+              <svg
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                <path
+                  fill-rule="evenodd"
+                  d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Afficher les nouveautés
+            </span>
+          </button>
+
+          <button class="btn-secondary" onclick="window.OpenPatch?.hide()">
+            <span>
+              <svg
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z"
+                  clip-rule="evenodd"
+                />
+                <path
+                  d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"
+                />
+              </svg>
+              Masquer le widget
+            </span>
+          </button>
+
+          <button
+            class="btn-danger"
+            onclick="if(confirm('Êtes-vous sûr de vouloir réinitialiser le localStorage ?')) { window.OpenPatch?.reset(); alert('✅ LocalStorage réinitialisé ! Rechargez la page pour voir le widget.'); }"
+          >
+            <span>
+              <svg
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              Réinitialiser
+            </span>
+          </button>
+        </div>
+
+        <div class="info-box">
+          <h3 style="margin-bottom: 1rem; font-size: 1.25rem">
+            📊 Informations de configuration
+          </h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="info-label">Version actuelle</span>
+              <span class="info-value">v1.4.0</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Project ID</span>
+              <span class="info-value">openpatch-demo</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Mode</span>
+              <span class="status">Détection auto</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="features animate-on-scroll">
+        <div class="feature-card">
+          <span class="feature-icon">🚀</span>
+          <h3>Détection automatique</h3>
+          <p>
+            Affiche les patchnotes uniquement lors d'une nouvelle version
+            détectée
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">💾</span>
+          <h3>Persistance locale</h3>
+          <p>
+            Stockage intelligent dans le localStorage pour un suivi des versions
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">🎨</span>
+          <h3>Design moderne</h3>
+          <p>Interface élégante avec Tailwind CSS et animations fluides</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">⚡</span>
+          <h3>Ultra léger</h3>
+          <p>Bundle optimisé pour des performances maximales</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">🔧</span>
+          <h3>Configurable</h3>
+          <p>Options personnalisables pour tous vos besoins</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">📱</span>
+          <h3>Responsive</h3>
+          <p>Design adaptatif pour tous les appareils et tailles d'écran</p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>
+          Créé avec ❤️ par
+          <a href="https://github.com/williamloree" target="_blank"
+            >williamloree</a
+          >
+          •
+          <a href="https://github.com/williamloree/OpenPatch" target="_blank"
+            >GitHub</a
+          >
+          •
+          <a href="https://williamloree.github.io/OpenPatch/" target="_blank"
+            >Documentation</a
+          >
+        </p>
+      </footer>
+    </div>
+
+    <!-- Configuration OpenPatch -->
+    <script>
+
+     // Si OpenPatchConfig est défini il prend le dessus sur Settings
+      window.OpenPatchConfig = {
+        jsonUrl: "./patchnotes.json",
+      };
+      // Est inutile si OpenPatchConfig est défini
+      window.Settings = {
+        projectId: "openpatch-demo",
+        version: "1.4.0",
+        patchnotes: {
+          title: "Nouveautés v1.4.0",
+          sections: [
+            {
+              title: "✨ Nouvelles fonctionnalités",
+              items: [
+                "Ajout du dashboard de statistiques en temps réel",
+                "Nouveau système de notifications intelligentes",
+                "Mode sombre automatique selon les préférences",
+                "Export des données en PDF et Excel",
+                "Intégration API REST complète",
+              ],
+            },
+            {
+              title: "⚡ Améliorations",
+              items: [
+                "Performance améliorée de 40% sur le chargement",
+                "Interface utilisateur repensée",
+                "Recherche optimisée avec suggestions",
+                "Réduction de 30% de la taille du bundle",
+              ],
+            },
+            {
+              title: "🐛 Corrections",
+              items: [
+                "Correction du bug d'affichage sur iOS Safari",
+                "Résolution des problèmes de synchronisation",
+                "Fix du crash sur anciens navigateurs",
+              ],
+            },
+          ],
+        },
+        options: {
+          closeButtonText: "Compris !",
+          forceShow: false,
+        },
+        css: {
+          primaryColor: "#4CAF50",
+          backgroundColor: "#f9f9f9",
+          textColor: "#333333",
+          buttonTextColor: "#ffffff",
+          buttonBackgroundColor: "#4CAF50",
+          borderColor: "#e0e0e0",
+          accentColor: "#81C784",
+        },
+      };
+      
+      // Chargement du widget OpenPatch
+      (function (d, s, x) {
+        var t = d.getElementsByTagName(s)[0],
+          e = d.createElement(s),
+          l = d.createElement(x);
+        // Chemin absolu depuis la racine du serveur
+        var io = "https://williamloree.github.io/OpenPatch/"; // URL locale pour développement (serveur Vite)
+        // var io = "https://williamloree.github.io/OpenPatch/"; // URL CDN production
+        var h = d.getElementsByTagName("head")[0];
+        e.type = "module";
+        e.src = io + "openpatch.es.js";
+        l.rel = "stylesheet";
+        l.type = "text/css";
+        l.href = io + "open-patch.css";
+        t.parentNode.insertBefore(e, t);
+        h.appendChild(l);
+      })(document, "script", "link");
+
+      // Smooth scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -100px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.animation = "fadeInUp 0.8s ease-out both";
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".feature-card").forEach((card) => {
+        observer.observe(card);
+      });
+    </script>
+  </body>
+</html>

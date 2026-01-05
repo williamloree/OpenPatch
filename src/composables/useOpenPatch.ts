@@ -1,12 +1,14 @@
 import { ref, computed } from 'vue'
+import type { PatchNotesConfig, CSSCustomization } from '../types/settings'
 
 export interface OpenPatchConfig {
   projectId: string
   version: string
-  content: string
+  patchnotes: PatchNotesConfig
   title?: string
   closeButtonText?: string
   forceShow?: boolean
+  cssCustomization?: CSSCustomization
 }
 
 interface StoredVersion {

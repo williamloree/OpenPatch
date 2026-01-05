@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -9,32 +9,43 @@
   <body>
     <script>
       window.Settings = {
-      projectId: "my-project",
-      version: "1.4.0",
-      patchnotes: {
-        title: "Nouveautés",
-        sections: [
-          {
-            title: "Fonctionnalités",
-            items: [
-              "Ajout du dashboard",
-              "Nouveau système de notifications"
-            ],
-          },
-          {
-            title: "Corrections",
-            items: [
-              "Correction de bugs mineurs",
-              "Amélioration des performances",
-            ],
-          },
-        ],
-      },
-      options: {
-        closeButtonText: "Compris !!!",
-        forceShow: false,
-      },
-    };
+        projectId: "openpatch-demo",
+        version: "1.4.0",
+        patchnotes: {
+          title: "🚀 Nouveautés",
+          sections: [
+            {
+              title: "✨ Nouvelles fonctionnalités",
+              items: [
+                "Ajout du dashboard de statistiques en temps réel",
+                "Nouveau système de notifications intelligentes",
+              ],
+            },
+            {
+              title: "⚡ Améliorations",
+              items: [
+                "Performance améliorée de 40% sur le chargement",
+                "Interface utilisateur repensée",
+                "Recherche optimisée avec suggestions",
+                "Réduction de 30% de la taille du bundle",
+              ],
+            },
+          ],
+        },
+        options: {
+          closeButtonText: "Compris !",
+          forceShow: false,
+        },
+        css: {
+          primaryColor: "#FF6B35",
+          backgroundColor: "#FFF8F3",
+          textColor: "#2D3142",
+          buttonBackgroundColor: "#FF6B35",
+          buttonTextColor: "#ffffff",
+          borderColor: "#FFE5D9",
+          accentColor: "#FFB997",
+        },
+      };
     </script>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
