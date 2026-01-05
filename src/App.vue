@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen bg-linear-to-br from-slate-50 to-blue-50 p-8">
     <div class="max-w-4xl mx-auto">
-      <!-- Header -->
       <header class="text-center mb-12">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">
           OpenPatch Widget Demo
@@ -10,10 +9,7 @@
           Widget universel de patchnotes pour Vue 3
         </p>
       </header>
-
-      <!-- Exemples -->
       <div class="space-y-8">
-        <!-- Exemple 1: Mode automatique -->
         <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
           <h2 class="text-2xl font-semibold text-gray-900 mb-4">
             Mode automatique
@@ -34,8 +30,6 @@
             Changer de version (simulation)
           </button>
         </div>
-
-        <!-- Infos localStorage -->
         <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200">
           <h2 class="text-2xl font-semibold text-gray-900 mb-4">
             📊 État localStorage

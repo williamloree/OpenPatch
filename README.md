@@ -38,8 +38,8 @@ npm install open-patch
 ### Option 2: Standalone Script (Any Website)
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/open-patch/dist/open-patch.css">
-<script src="https://unpkg.com/open-patch/dist/openpatch.es.js" type="module"></script>
+<link rel="stylesheet" href="https://williamloree.github.io/OpenPatch/open-patch.css">
+<script src="https://williamloree.github.io/OpenPatch/openpatch.es.js" type="module"></script>
 ```
 
 ### Option 3: Development (Clone Repository)
@@ -143,7 +143,7 @@ reset()
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="https://unpkg.com/open-patch/dist/open-patch.css">
+  <link rel="stylesheet" href="https://williamloree.github.io/OpenPatch/open-patch.css">
 </head>
 <body>
   <h1>My Website</h1>
@@ -154,7 +154,7 @@ reset()
       jsonUrl: '/patchnotes.json'
     }
   </script>
-  <script src="https://unpkg.com/open-patch/dist/openpatch.es.js" type="module"></script>
+  <script src="https://williamloree.github.io/OpenPatch/openpatch.es.js" type="module"></script>
 </body>
 </html>
 ```
@@ -197,7 +197,7 @@ reset()
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="https://unpkg.com/open-patch/dist/open-patch.css">
+  <link rel="stylesheet" href="https://williamloree.github.io/OpenPatch/open-patch.css">
 </head>
 <body>
   <h1>My Website</h1>
@@ -234,7 +234,7 @@ reset()
       }
     }
   </script>
-  <script src="https://unpkg.com/open-patch/dist/openpatch.es.js" type="module"></script>
+  <script src="https://williamloree.github.io/OpenPatch/openpatch.es.js" type="module"></script>
 </body>
 </html>
 ```

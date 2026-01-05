@@ -854,44 +854,10 @@
           buttonBackgroundColor: "#4CAF50",
           borderColor: "#e0e0e0",
           accentColor: "#81C784",
-        },
+        }
       };
-      
-      // Chargement du widget OpenPatch
-      (function (d, s, x) {
-        var t = d.getElementsByTagName(s)[0],
-          e = d.createElement(s),
-          l = d.createElement(x);
-        // Chemin absolu depuis la racine du serveur
-        var io = "https://williamloree.github.io/OpenPatch/"; // URL locale pour développement (serveur Vite)
-        // var io = "https://williamloree.github.io/OpenPatch/"; // URL CDN production
-        var h = d.getElementsByTagName("head")[0];
-        e.type = "module";
-        e.src = io + "openpatch.es.js";
-        l.rel = "stylesheet";
-        l.type = "text/css";
-        l.href = io + "open-patch.css";
-        t.parentNode.insertBefore(e, t);
-        h.appendChild(l);
-      })(document, "script", "link");
-
-      // Smooth scroll animations
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -100px 0px",
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.animation = "fadeInUp 0.8s ease-out both";
-          }
-        });
-      }, observerOptions);
-
-      document.querySelectorAll(".feature-card").forEach((card) => {
-        observer.observe(card);
-      });
     </script>
+    <script src="https://williamloree.github.io/OpenPatch/openpatch.es.js" type="module"></script>
+    <link rel="stylesheet" href="https://williamloree.github.io/OpenPatch/open-patch.css" />
   </body>
 </html>

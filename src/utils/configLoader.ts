@@ -18,7 +18,6 @@ export async function loadConfig(options: ConfigLoaderOptions = {}): Promise<Win
 
       const jsonConfig = await response.json() as WindowSettings
 
-      // Validate required fields
       if (!jsonConfig.projectId || !jsonConfig.version || !jsonConfig.patchnotes) {
         throw new Error('Configuration JSON incomplète (projectId, version, patchnotes requis)')
       }
@@ -28,7 +27,6 @@ export async function loadConfig(options: ConfigLoaderOptions = {}): Promise<Win
     } catch (error) {
       console.error('[OpenPatch] Erreur lors du chargement du JSON:', error)
 
-      // Fallback to window.Settings or fallbackSettings
       if (options.fallbackSettings) {
         console.warn('[OpenPatch] Utilisation de la configuration de fallback')
         return options.fallbackSettings
