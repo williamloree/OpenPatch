@@ -1,4 +1,4 @@
-import type { WindowSettings } from '../types/settings'
+import type { WindowSettings, JSONConfig } from '../types/settings'
 
 export interface ConfigLoaderOptions {
   jsonUrl?: string
@@ -6,7 +6,9 @@ export interface ConfigLoaderOptions {
 }
 
 export async function loadConfig(options: ConfigLoaderOptions = {}): Promise<WindowSettings | null> {
-  // Priority 1: Load from JSON URL if provided
+  let jsonConfig: JSONConfig | null = null
+
+  // Step 1: Load from JSON URL if provided (version + patchnotes)
   if (options.jsonUrl) {
     try {
       console.log(`[OpenPatch] Chargement de la configuration depuis ${options.jsonUrl}`)
@@ -16,31 +18,45 @@ export async function loadConfig(options: ConfigLoaderOptions = {}): Promise<Win
         throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
 
-      const jsonConfig = await response.json() as WindowSettings
+      jsonConfig = await response.json() as JSONConfig
 
-      if (!jsonConfig.projectId || !jsonConfig.version || !jsonConfig.patchnotes) {
-        throw new Error('Configuration JSON incomplète (projectId, version, patchnotes requis)')
+      if (!jsonConfig.version || !jsonConfig.patchnotes) {
+        throw new Error('Configuration JSON incomplète (version et patchnotes requis)')
       }
 
       console.log('[OpenPatch] Configuration JSON chargée avec succès')
-      return jsonConfig
     } catch (error) {
       console.error('[OpenPatch] Erreur lors du chargement du JSON:', error)
-
-      if (options.fallbackSettings) {
-        console.warn('[OpenPatch] Utilisation de la configuration de fallback')
-        return options.fallbackSettings
-      }
+      jsonConfig = null
     }
   }
 
-  // Priority 2: Use window.Settings if available
-  if (window.Settings) {
-    console.log('[OpenPatch] Utilisation de window.Settings')
-    return window.Settings
+  // Step 2: Merge with window.Settings (projectId + options + css)
+  if (jsonConfig && window.Settings) {
+    console.log('[OpenPatch] Fusion de la config JSON avec window.Settings')
+    return {
+      projectId: window.Settings.projectId,
+      version: jsonConfig.version,
+      patchnotes: jsonConfig.patchnotes,
+      options: window.Settings.options,
+      css: window.Settings.css
+    }
   }
 
-  // Priority 3: Use fallback settings if provided
+  // Step 3: Use only window.Settings if no JSON loaded
+  if (window.Settings) {
+    console.log('[OpenPatch] Utilisation de window.Settings')
+
+    // Validate that window.Settings has required fields
+    if (!window.Settings.projectId || !window.Settings.version || !window.Settings.patchnotes) {
+      console.error('[OpenPatch] window.Settings incomplet (projectId, version, patchnotes requis)')
+      return null
+    }
+
+    return window.Settings as WindowSettings
+  }
+
+  // Step 4: Use fallback settings if provided
   if (options.fallbackSettings) {
     console.log('[OpenPatch] Utilisation de la configuration de fallback')
     return options.fallbackSettings

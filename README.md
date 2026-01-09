@@ -139,6 +139,11 @@ reset()
 
 **Update your patch notes without redeploying your application!**
 
+The new architecture separates concerns:
+
+- **JSON file**: Contains only `version` and `patchnotes` (minimal viable configuration)
+- **window.Settings**: Contains `projectId`, `options`, and `css` customization
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -148,10 +153,22 @@ reset()
 <body>
   <h1>My Website</h1>
 
-  <script type="module">
-    // Configure via window object
+  <script>
+    // Configure URL to fetch version and patchnotes
     window.OpenPatchConfig = {
       jsonUrl: '/patchnotes.json'
+    }
+
+    // Configure local options (projectId + options + css)
+    window.Settings = {
+      projectId: "my-app",
+      options: {
+        closeButtonText: "Got it!",
+        forceShow: false
+      },
+      css: {
+        primaryColor: "#4CAF50"
+      }
     }
   </script>
   <script src="https://williamloree.github.io/OpenPatch/openpatch.es.js" type="module"></script>
@@ -159,11 +176,10 @@ reset()
 </html>
 ```
 
-**patchnotes.json:**
+**patchnotes.json (Minimal Configuration):**
 
 ```json
 {
-  "projectId": "my-app",
   "version": "1.2.0",
   "patchnotes": {
     "title": "What's New",
@@ -173,23 +189,17 @@ reset()
         "items": ["New dashboard", "Notifications"]
       }
     ]
-  },
-  "options": {
-    "closeButtonText": "Got it!",
-    "forceShow": false
-  },
-  "css": {
-    "primaryColor": "#4CAF50"
   }
 }
 ```
 
-**Benefits of JSON configuration:**
+**Benefits of this architecture:**
 
-- Update patch notes without code deployment
-- Modify version in production
-- Centralized configuration management
-- Automatic fallback to `window.Settings` if JSON fails
+- **Update patch notes without code deployment**: Change only the JSON file
+- **CSS and options stay in HTML**: No need to redeploy styling changes separately
+- **Separation of concerns**: Content (JSON) vs. Configuration (HTML)
+- **Smaller JSON files**: Only version and patch notes
+- **Automatic fallback**: Uses `window.Settings` if JSON fails
 
 ### Standalone Mode - Inline Configuration
 
@@ -404,7 +414,8 @@ import type {
   WindowSettings,
   CSSCustomization,
   WidgetOptions,
-  OpenPatchConfig
+  OpenPatchConfig,
+  JSONConfig
 } from 'open-patch'
 
 // Aliases for compatibility

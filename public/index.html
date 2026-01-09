@@ -801,47 +801,15 @@
 
     <!-- Configuration OpenPatch -->
     <script>
-
-     // Si OpenPatchConfig est défini il prend le dessus sur Settings
+      // Configuration de l'URL du JSON distant (version + patchnotes)
       window.OpenPatchConfig = {
         jsonUrl: "./patchnotes.json",
       };
-      // Est inutile si OpenPatchConfig est défini
+
+      // Configuration locale (projectId + options + css)
+      // Les options et le CSS définis ici seront fusionnés avec le JSON distant
       window.Settings = {
         projectId: "openpatch-demo",
-        version: "1.4.0",
-        patchnotes: {
-          title: "Nouveautés v1.4.0",
-          sections: [
-            {
-              title: "✨ Nouvelles fonctionnalités",
-              items: [
-                "Ajout du dashboard de statistiques en temps réel",
-                "Nouveau système de notifications intelligentes",
-                "Mode sombre automatique selon les préférences",
-                "Export des données en PDF et Excel",
-                "Intégration API REST complète",
-              ],
-            },
-            {
-              title: "⚡ Améliorations",
-              items: [
-                "Performance améliorée de 40% sur le chargement",
-                "Interface utilisateur repensée",
-                "Recherche optimisée avec suggestions",
-                "Réduction de 30% de la taille du bundle",
-              ],
-            },
-            {
-              title: "🐛 Corrections",
-              items: [
-                "Correction du bug d'affichage sur iOS Safari",
-                "Résolution des problèmes de synchronisation",
-                "Fix du crash sur anciens navigateurs",
-              ],
-            },
-          ],
-        },
         options: {
           closeButtonText: "Compris !",
           forceShow: false,

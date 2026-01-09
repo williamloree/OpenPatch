@@ -1,15 +1,16 @@
 {
-  "projectId": "openpatch-demo",
   "version": "1.4.0",
   "patchnotes": {
-    "title": "🚀 Nouveautés",
+    "title": "Nouveautés v1.4.0",
     "sections": [
       {
-        "title": "✨ fonctionnalités",
+        "title": "✨ Nouvelles fonctionnalités",
         "items": [
-          "Chargement de configuration depuis fichier JSON externe",
-          "Flexibilité de mise à jour des patchnotes sans redéploiement",
-          "Système de fallback automatique vers window.Settings"
+          "Ajout du dashboard de statistiques en temps réel",
+          "Nouveau système de notifications intelligentes",
+          "Mode sombre automatique selon les préférences",
+          "Export des données en PDF et Excel",
+          "Intégration API REST complète"
         ]
       },
       {
@@ -24,23 +25,11 @@
       {
         "title": "🐛 Corrections",
         "items": [
-          "Correction de bugs mineurs",
-          "Amélioration de la gestion des erreurs"
+          "Correction du bug d'affichage sur iOS Safari",
+          "Résolution des problèmes de synchronisation",
+          "Fix du crash sur anciens navigateurs"
         ]
       }
     ]
-  },
-  "options": {
-    "closeButtonText": "Compris !",
-    "forceShow": false
-  },
-  "css": {
-    "primaryColor": "#FF6B35",
-    "backgroundColor": "#FFF8F3",
-    "textColor": "#2D3142",
-    "buttonBackgroundColor": "#FF6B35",
-    "buttonTextColor": "#ffffff",
-    "borderColor": "#FFE5D9",
-    "accentColor": "#FFB997"
   }
 }

@@ -11,7 +11,8 @@ export type {
   WindowSettings,
   CSSCustomization,
   WidgetOptions,
-  OpenPatchConfig
+  OpenPatchConfig,
+  JSONConfig
 } from './types/settings'
 
 // Alias pour compatibilité

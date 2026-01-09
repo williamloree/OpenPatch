@@ -30,12 +30,20 @@ export interface WidgetOptions {
 }
 
 /**
+ * Configuration minimale depuis le JSON distant
+ */
+export interface JSONConfig {
+  version: string
+  patchnotes: PatchNotesConfig
+}
+
+/**
  * Configuration globale dans window.Settings
  */
 export interface WindowSettings {
   projectId: string
-  version: string
-  patchnotes: PatchNotesConfig
+  version?: string
+  patchnotes?: PatchNotesConfig
   options?: WidgetOptions
   css?: CSSCustomization
 }
